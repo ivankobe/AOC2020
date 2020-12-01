@@ -1,24 +1,6 @@
-#use "topfind"
-#require "str"
-
-
-let split_on_newline s = Str.split (Str.regexp "\n") s
-
-(* Adapted from https://stackoverflow.com/questions/39813584/how-to-split-on-whitespaces-in-ocaml *)
-
-
-let char_list_to_int_list l =
-    let rec aux acc = function
-    | [] -> acc
-    | x :: xs -> aux ((int_of_string x) :: acc) xs
-    in
-    aux [] l
-
-
 let rec find_complement n m = function
     | [] -> None
     | x :: xs -> if x = (m - n) then Some x else find_complement n m xs
-
 
 let rec find_complement_pair n m = function
     | [] -> None
@@ -31,27 +13,33 @@ let rec find_complement_pair n m = function
             else find_complement_pair n m xs
     )
 
+let rec mul_w_match_num = function
+    | [] -> None
+    | x :: xs ->
+        (
+            match find_complement x 2020 xs with
+            | None -> mul_w_match_num xs
+            | Some y -> Some (x * y)
+        )
 
-let rec find_match = function
+let rec mul_w_match_pair = function
     | [] -> None
     | x :: xs ->
         (
             match find_complement_pair x 2020 xs with
-            | None -> find_match xs
+            | None -> mul_w_match_pair xs
             | Some (y, z) -> Some (x * y * z)
         )
 
-
 let str_of_int_opt = function
-    | None -> "bla"
+    | None -> ""
     | Some x -> string_of_int x
 
-
 let naloga1 vsebina_datoteke =
-    vsebina_datoteke |> split_on_newline |> char_list_to_int_list |> find_match |> str_of_int_opt
+    vsebina_datoteke |> String.split_on_char '\n' |> List.filter (fun x -> (String.length x) > 0) |> List.map int_of_string |> mul_w_match_num |> str_of_int_opt
 
-
-
+let naloga2 vsebina_datoteke =
+    vsebina_datoteke |> String.split_on_char '\n' |> List.filter (fun x -> (String.length x) > 0) |> List.map int_of_string |> mul_w_match_pair |> str_of_int_opt
 
 let _ =
     let preberi_datoteko ime_datoteke =
@@ -64,10 +52,9 @@ let _ =
         output_string chan vsebina;
         close_out chan
     in
-    let vsebina_datoteke = preberi_datoteko "/home/ivan/Faks/Prog1/AOC2020/day_1_2/day_1_2.in" in
+    let vsebina_datoteke = preberi_datoteko "/home/ivan/Faks/Prog1/AOC2020/day_1/day_1.in" in
     let odgovor1 = naloga1 vsebina_datoteke
+    and odgovor2 = naloga2 vsebina_datoteke
     in
-    izpisi_datoteko "/home/ivan/Faks/Prog1/AOC2020/day_1_2/day_1_2.out" odgovor1;
-
-
-
+    izpisi_datoteko "/home/ivan/Faks/Prog1/AOC2020/day_1/day_1_1.out" odgovor1;
+    izpisi_datoteko "/home/ivan/Faks/Prog1/AOC2020/day_1/day_1_2.out" odgovor2
