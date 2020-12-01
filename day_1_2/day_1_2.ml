@@ -4,6 +4,8 @@
 
 let split_on_newline s = Str.split (Str.regexp "\n") s
 
+(* Adapted from https://stackoverflow.com/questions/39813584/how-to-split-on-whitespaces-in-ocaml *)
+
 
 let char_list_to_int_list l =
     let rec aux acc = function
