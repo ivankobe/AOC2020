@@ -64,10 +64,10 @@ let _ =
         output_string chan vsebina;
         close_out chan
     in
-    let vsebina_datoteke = preberi_datoteko "/home/ivan/Faks/Prog1/AOC/day_1_2/day_1_2.in" in
+    let vsebina_datoteke = preberi_datoteko "/home/ivan/Faks/Prog1/AOC2020/day_1_2/day_1_2.in" in
     let odgovor1 = naloga1 vsebina_datoteke
     in
-    izpisi_datoteko "/home/ivan/Faks/Prog1/AOC/day_1_2/day_1_2.out" odgovor1;
+    izpisi_datoteko "/home/ivan/Faks/Prog1/AOC2020/day_1_2/day_1_2.out" odgovor1;
 
 
 
