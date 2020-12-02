@@ -56,9 +56,9 @@ let _ =
         output_string chan vsebina;
         close_out chan
     in
-    let vsebina_datoteke = preberi_datoteko ("/home/ivan/Faks/Prog1/AOC2020/dan" ^ dan ^ "/day_" ^ dan ^ ".in") in
+    let vsebina_datoteke = preberi_datoteko ("/home/ivan/Faks/Prog1/AOC2020/in/day_" ^ dan ^ ".in") in
     let odgovor1 = naloga1 vsebina_datoteke
     and odgovor2 = naloga2 vsebina_datoteke
     in
-    izpisi_datoteko ("/home/ivan/Faks/Prog1/AOC2020/day_" ^ dan ^ "/day_" ^ dan ^ "_1.out") odgovor1;
-    izpisi_datoteko ("/home/ivan/Faks/Prog1/AOC2020/day_" ^ dan ^ "/day_" ^ dan ^ "_2.out") odgovor2
+    izpisi_datoteko ("/home/ivan/Faks/Prog1/AOC2020/out/day_" ^ dan ^ "_1.out") odgovor1;
+    izpisi_datoteko ("/home/ivan/Faks/Prog1/AOC2020/out/day_" ^ dan ^ "_2.out") odgovor2
