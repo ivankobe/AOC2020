@@ -5,30 +5,27 @@ let line_length = String.length ".#......##..#.....#....#.#.#..."
 let pick_from_line line num_steps n =
     let index = (n * num_steps) mod line_length in line.[index]
 
-let pick_from_each_line num_steps list =
-    let rec aux acc count l = match l with
+let pick_from_each_line num_steps_x num_steps_y list =
+    let rec index acc n = function
     | [] -> acc
-    | x :: xs -> aux (acc @ [pick_from_line x num_steps count]) (count + 1) xs
-    in aux [] 0 list
+    | x :: xs -> index (acc @ [(x, n)]) (n + 1) xs in
+    let rec aux acc count = function
+    | [] -> acc
+    | (x, n) :: xs ->
+        if ((n mod num_steps_y) = 0)
+        then aux (acc @ [pick_from_line x num_steps_x count]) (count + 1) xs
+        else aux acc count xs in
+    aux [] 0 (index [] 0 list)
 
-let rec every_odd = function
-    | [] -> []
-    | x :: [] -> x :: []
-    | x :: y :: z -> x :: (every_odd z)
-
-let trees steps v = 
-    v |> String.split_on_char '\n' |> pick_from_each_line steps
+let trees x y v =
+    v |> String.split_on_char '\n' |> pick_from_each_line x y
     |> List.tl |> List.filter (Char.equal '#') |> List.length
 
 let naloga1 v =
-    v |> trees 3 |> string_of_int
+    v |> trees 3 1 |> string_of_int
 
-let one_right_two_down v =
-    v |> String.split_on_char '\n' |> every_odd |> pick_from_each_line 1 
-    |> List.tl |> List.filter (Char.equal '#') |> List.length
-    
 let naloga2 v =
-    ((trees 1 v) * (trees 3 v) * (trees 5 v) * (trees 7 v) * (one_right_two_down v)) |> string_of_int
+    ((trees 1 1 v) * (trees 3 1 v) * (trees 5 1 v) * (trees 7 1 v) * (trees 1 2 v)) |> string_of_int
 
 let _ =
     let preberi_datoteko ime_datoteke =
