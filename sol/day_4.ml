@@ -21,8 +21,8 @@ let reghgt = regexp "^\([0-9]+\)\(in\|cm\)$"
 let reghcl = regexp "^#[a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9]$"
 let regpid = regexp "^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$"
 
-let cm_contditions num = num >= 150 && num <= 193
-let in_contditions num = num >= 59 && num <= 76
+let cm_conditions num = num >= 150 && num <= 193
+let in_conditions num = num >= 59 && num <= 76
 
 let rec validate_passport = function
     | [] -> true
@@ -42,8 +42,8 @@ let rec validate_passport = function
             else
         let num = Str.matched_group 1 tl in
         let unit = Str.matched_group 2 tl in
-            if (unit = "cm" && cm_contditions (int_of_string num)) then continue
-            else if (unit = "in" && in_contditions (int_of_string num)) then continue
+            if (unit = "cm" && cm_conditions (int_of_string num)) then continue
+            else if (unit = "in" && in_conditions (int_of_string num)) then continue
             else false
         | _ -> continue
 
