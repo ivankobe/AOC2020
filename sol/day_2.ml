@@ -8,7 +8,7 @@ let check_password_2 char str x y =
     let q = str.[x - 1] = char && str.[y - 1] = char in
     p && (not q)
 
-let trim_password str =
+let format str =
     let finalise = function
     | [x;y;z] -> (
         let a = (fun li -> match li with | [w;z] -> (w,z) | _ -> failwith "Incorrect argument")
@@ -22,10 +22,10 @@ let prepare_to_print l =
     l |> List.filter (fun x -> x) |> List.length |> string_of_int
 
 let naloga1 vsebina =
-    vsebina |> trim_password |> List.map (fun ((min,max),substr,pass) ->  check_password_1 substr.[0] pass min max) |> prepare_to_print
+    vsebina |> format |> List.map (fun ((min,max),substr,pass) ->  check_password_1 substr.[0] pass min max) |> prepare_to_print
     
 let naloga2 vsebina =
-    vsebina |> trim_password |> List.map (fun ((x,y),substr,pass) ->  check_password_2 substr.[0] pass x y) |> prepare_to_print
+    vsebina |> format |> List.map (fun ((x,y),substr,pass) ->  check_password_2 substr.[0] pass x y) |> prepare_to_print
 
 let _ =
     let preberi_datoteko ime_datoteke =

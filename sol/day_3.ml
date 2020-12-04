@@ -6,7 +6,7 @@ let line_length = String.length ".#......##..#.....#....#.#.#..."
 let pick_from_line line num_steps n =
     let index = (n * num_steps) mod line_length in line.[index]
 
-(* Searches for trees in a lis of lines *)
+(* Searches for trees in a list of lines *)
 let pick_from_each_line num_steps_x num_steps_y list =
     (* Indexes elements of a given list *)
     let rec index acc n = function
