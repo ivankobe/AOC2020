@@ -7,7 +7,7 @@ let day = "5"
 
 (* Given an initial range, it correctly divides
 it according to the character passed *)
-let divide_range (range : (int * int)) char =
+let divide_range range char =
     let min, max = range in
     let middle = (min + max) / 2 in
     if (max - min) > 1 then 
@@ -21,7 +21,7 @@ let divide_range (range : (int * int)) char =
         | 'B' | 'R' -> (max, max)
         | _ -> failwith "incorrect character"
 
-(* Loops through a FL- or BR-string and
+(* Loops through a FL- or BR-list and
 returns the corresponding row/column *)
 let rec loop_chairs range = function
     | [] -> failwith "incorrect argument"
@@ -36,17 +36,11 @@ let rec loop_chairs range = function
             | 'B' | 'R' -> snd new_range
             | _ -> failwith "incorrect argument"))
 
-(* Returns the maximum element of a given int list *)
-let list_max int_list =
-    let rec aux curr = function
-        | [] -> (match curr with
-            | None -> failwith "None"
-            | Some n -> n)
-        | x :: xs -> (match curr with
-            | None -> aux (Some x) xs
-            | Some n -> if x > n then aux (Some x) xs else aux (Some n) xs)
-        in
-    aux None int_list
+let rec find_id = function
+    | x :: y :: z ->
+        if (y - x) = 2 then (x + 1)
+        else find_id (y :: z)
+    | _ -> failwith "no id found"
 
 (* https://stackoverflow.com/a/52392884 *)
 let explode s = List.init (String.length s) (String.get s)
@@ -58,19 +52,12 @@ input
 |> List.map (fun (x,y) -> (loop_chairs (0,127) (explode x), loop_chairs (0,7) (explode y)))
 |> List.map (fun (x,y) -> (x * 8) + y)
 
-(* Starting from 0, we check consecutive ints untill we
-find one that satisfies the criteria from part 2 *)
-let find_id id_list =
-    let rec aux m id_list =
-        if m > 922 then failwith "sometnihng's wrong"
-        else if not (List.mem m id_list) && List.mem (m - 1) id_list && List.mem (m + 1) id_list
-        then m
-        else aux (m + 1) id_list in
-    aux 0 id_list
+let sort = List.sort compare
 
-let naloga1 input = input |> calculate_ids |> list_max |> string_of_int
+let naloga1 input = 
+input |> calculate_ids |> sort |> List.rev |> List.hd |> string_of_int
 
-let naloga2 input = input |> calculate_ids |> find_id |> string_of_int
+let naloga2 input = input |> calculate_ids |> sort |> find_id |> string_of_int
 
 let _ =
     let preberi_datoteko ime_datoteke =
