@@ -1,5 +1,6 @@
 #use "topfind"
 #require "str"
+#load "unix.cma"
 open Str
 
 let day = "5"
@@ -83,8 +84,14 @@ let _ =
         close_out chan
     in
     let vsebina_datoteke = preberi_datoteko ("/home/ivan/Faks/Prog1/AOC2020/in/day_" ^ day ^ ".in") in
-    let odgovor1 = naloga1 vsebina_datoteke
-    and odgovor2 = naloga2 vsebina_datoteke
-    in
-    izpisi_datoteko ("/home/ivan/Faks/Prog1/AOC2020/out/day_" ^ day ^ "_1.out") odgovor1;
-    izpisi_datoteko ("/home/ivan/Faks/Prog1/AOC2020/out/day_" ^ day ^ "_2.out") odgovor2
+    
+    let time1 = Unix.gettimeofday () in
+    let odgovor1 = naloga1 vsebina_datoteke in
+    let time_used1 = Unix.gettimeofday () -. time1 in
+
+    let time2 = Unix.gettimeofday () in
+    let odgovor2 = naloga2 vsebina_datoteke in
+    let time_used2 = Unix.gettimeofday () -. time2 in
+    
+    izpisi_datoteko ("/home/ivan/Faks/Prog1/AOC2020/out/day_" ^ day ^ "_1.out") (odgovor1 ^ " in " ^ (string_of_float time_used1) ^ "s");
+    izpisi_datoteko ("/home/ivan/Faks/Prog1/AOC2020/out/day_" ^ day ^ "_2.out") (odgovor2 ^ " in " ^ (string_of_float time_used2) ^ "s")
