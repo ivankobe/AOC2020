@@ -27,6 +27,12 @@ let list_sum list =
     | x :: xs -> aux (sum + x) xs in
     aux 0 list
 
+let rec mem_forall char = function
+    | [] -> true
+    | x :: xs ->
+        if String.contains x char then mem_forall char xs
+        else false
+
 let common_chars list = 
     let rec aux common (hd, tl) = match hd with
         | "" -> common
@@ -34,7 +40,7 @@ let common_chars list =
         let first = s.[0] in
         let rest = (String.sub s 1 ((String.length s) - 1)) in
         if List.mem first common then aux common (rest, tl)
-        else if (not (List.mem false (List.map (fun x -> String.contains x first) tl))) then aux (first :: common) (rest, tl)
+        else if mem_forall first tl then aux (first :: common) (rest, tl)
         else aux common (rest, tl)
     in aux [] (List.hd list, List.tl list)
 
