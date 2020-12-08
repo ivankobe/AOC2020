@@ -73,7 +73,7 @@ let read_tape' (tape : tape) : int =
   let rec read acc visited tape start =
     (* if we visit the same line twice, this isn't the right tape *)
     if IntSet.mem start visited then None
-    (* if we fall of the grid, this is it *)
+    (* if we fall off the grid, this is it *)
     else if Hashtbl.find_opt tape start = None then Some acc
     else
       let visited' = IntSet.add start visited in
