@@ -20,7 +20,7 @@ setup.data
 setup.log
 
 # lsp files
-debug.log
+node_modules/
 
 # Merlin configuring file for Vim and Emacs
 .merlin
@@ -32,4 +32,5 @@ debug.log
 _opam/
 
 # vscode config
-tasks.json
+.vscode/
+
