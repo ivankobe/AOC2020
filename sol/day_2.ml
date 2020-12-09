@@ -1,5 +1,3 @@
-let dan = "2"
-
 let check_password_1 char str min max =
     let num = (List.length (String.split_on_char char str)) - 1 in (num >= min && num <= max)
 
@@ -21,26 +19,8 @@ let format str =
 let prepare_to_print l =    
     l |> List.filter (fun x -> x) |> List.length |> string_of_int
 
-let naloga1 vsebina =
+let day2pt1 vsebina =
     vsebina |> format |> List.map (fun ((min,max),substr,pass) ->  check_password_1 substr.[0] pass min max) |> prepare_to_print
     
-let naloga2 vsebina =
+let day2pt2 vsebina =
     vsebina |> format |> List.map (fun ((x,y),substr,pass) ->  check_password_2 substr.[0] pass x y) |> prepare_to_print
-
-let _ =
-    let preberi_datoteko ime_datoteke =
-        let chan = open_in ime_datoteke in
-        let vsebina = really_input_string chan (in_channel_length chan) in
-        close_in chan;
-        vsebina
-    and izpisi_datoteko ime_datoteke vsebina =
-        let chan = open_out ime_datoteke in
-        output_string chan vsebina;
-        close_out chan
-    in
-    let vsebina_datoteke = preberi_datoteko ("/home/ivan/Faks/Prog1/AOC2020/in/day_" ^ dan ^ ".in") in
-    let odgovor1 = naloga1 vsebina_datoteke
-    and odgovor2 = naloga2 vsebina_datoteke
-    in
-    izpisi_datoteko ("/home/ivan/Faks/Prog1/AOC2020/out/day_" ^ dan ^ "_1.out") odgovor1;
-    izpisi_datoteko ("/home/ivan/Faks/Prog1/AOC2020/out/day_" ^ dan ^ "_2.out") odgovor2

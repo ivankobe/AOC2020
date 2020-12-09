@@ -1,6 +1,3 @@
-#use "/home/ivan/.ocamlinit"
-#use "topfind"
-#use "/home/ivan/Faks/Programinanje1/AOC2020/sol/day_1.ml"
 let day = "8"
 
 type instr = Nop | Jmp | Acc
@@ -117,6 +114,6 @@ let parse input : tape =
   input |> String.split_on_char '\n' |> List.map (String.split_on_char ' ')
   |> parser (Hashtbl.create 1000) 0 
 
-let naloga1 input = input |> parse |> read_tape |> string_of_int
+let day8pt1 input = input |> parse |> read_tape |> string_of_int
 
-let naloga2 input = input |> parse |> read_tape' |> string_of_int
+let day8pt2 input = input |> parse |> read_tape' |> string_of_int

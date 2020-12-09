@@ -2,8 +2,6 @@
 #require "str"
 open Str
 
-let day = "4"
-
 let rec contains elements list =
     match elements with
     | [] -> true
@@ -52,33 +50,15 @@ let rec list_list_to_tuple_list = function
     | [x; y] :: xs -> (x,y) :: (list_list_to_tuple_list xs)
     | _ -> failwith "an incorrect argument was passed to this function"
 
-let naloga1 input = 
+let day4pt1 input = 
 input
 |> Str.split (Str.regexp "\n\n")  |> List.map (Str.split whitespace_regexp)
 |> List.map (List.map (fun str -> String.sub str 0 3)) |> List.filter (contains tags)
 |> List.length |> string_of_int
 
-let naloga2 input =
+let day4pt2 input =
 input
 |> Str.split (Str.regexp "\n\n")  |> List.map (Str.split whitespace_regexp)
 |> List.map (List.map (String.split_on_char ':')) |> List.map list_list_to_tuple_list
 |> List.filter validate_passport |> List.map (List.map fst) |> List.filter (contains tags)
 |> List.length |> string_of_int
-
-let _ =
-    let preberi_datoteko ime_datoteke =
-        let chan = open_in ime_datoteke in
-        let vsebina = really_input_string chan (in_channel_length chan) in
-        close_in chan;
-        vsebina
-    and izpisi_datoteko ime_datoteke vsebina =
-        let chan = open_out ime_datoteke in
-        output_string chan vsebina;
-        close_out chan
-    in
-    let vsebina_datoteke = preberi_datoteko ("/home/ivan/Faks/Prog1/AOC2020/in/day_" ^ day ^ ".in") in
-    let odgovor1 = naloga1 vsebina_datoteke
-    and odgovor2 = naloga2 vsebina_datoteke
-    in
-    izpisi_datoteko ("/home/ivan/Faks/Prog1/AOC2020/out/day_" ^ day ^ "_1.out") odgovor1;
-    izpisi_datoteko ("/home/ivan/Faks/Prog1/AOC2020/out/day_" ^ day ^ "_2.out") odgovor2

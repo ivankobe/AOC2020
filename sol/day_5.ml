@@ -1,9 +1,6 @@
 #use "topfind"
 #require "str"
-#load "unix.cma"
 open Str
-
-let day = "5"
 
 (* Given an initial range, it correctly divides
 it according to the character passed *)
@@ -54,31 +51,7 @@ input
 
 let sort = List.sort compare
 
-let naloga1 input = 
+let day5pt1 input = 
 input |> calculate_ids |> sort |> List.rev |> List.hd |> string_of_int
 
-let naloga2 input = input |> calculate_ids |> sort |> find_id |> string_of_int
-
-let _ =
-    let preberi_datoteko ime_datoteke =
-        let chan = open_in ime_datoteke in
-        let vsebina = really_input_string chan (in_channel_length chan) in
-        close_in chan;
-        vsebina
-    and izpisi_datoteko ime_datoteke vsebina =
-        let chan = open_out ime_datoteke in
-        output_string chan vsebina;
-        close_out chan
-    in
-    let vsebina_datoteke = preberi_datoteko ("/home/ivan/Faks/Prog1/AOC2020/in/day_" ^ day ^ ".in") in
-    
-    let time1 = Unix.gettimeofday () in
-    let odgovor1 = naloga1 vsebina_datoteke in
-    let time_used1 = Unix.gettimeofday () -. time1 in
-
-    let time2 = Unix.gettimeofday () in
-    let odgovor2 = naloga2 vsebina_datoteke in
-    let time_used2 = Unix.gettimeofday () -. time2 in
-    
-    izpisi_datoteko ("/home/ivan/Faks/Prog1/AOC2020/out/day_" ^ day ^ "_1.out") (odgovor1 ^ " in " ^ (string_of_float time_used1) ^ "s");
-    izpisi_datoteko ("/home/ivan/Faks/Prog1/AOC2020/out/day_" ^ day ^ "_2.out") (odgovor2 ^ " in " ^ (string_of_float time_used2) ^ "s")
+let day5pt2 input = input |> calculate_ids |> sort |> find_id |> string_of_int
