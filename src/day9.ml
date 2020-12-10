@@ -1,3 +1,7 @@
+#load "unix.cma"
+
+let day = "9"
+
 type tape = (int, int list * int) Hashtbl.t
 
 module IntSet = Set.Make( 
@@ -60,7 +64,7 @@ let parse' input =
   input |> String.split_on_char '\n' |> List.map int_of_string |> parser (Hashtbl.create 1000) 1
 
 
-let day9pt1 input =
+let pt1 input =
 
   let rec aux hashtbl n =
     let (list, x) = Hashtbl.find hashtbl n in
@@ -70,7 +74,7 @@ let day9pt1 input =
   aux (parse input) 1 |> string_of_int
 
 
-let day9pt2 input =
+let pt2 input =
 
   (* tries to sum consecutive ints into
   a given sum starting from index n *)
@@ -93,4 +97,29 @@ let day9pt2 input =
       a + b
     in
 
-  aux' (parse' input) 1 (input |> day9pt1 |> int_of_string) |> string_of_int
+  aux' (parse' input) 1 (input |> pt1 |> int_of_string) |> string_of_int
+
+
+  let _ =
+    let preberi_datoteko ime_datoteke =
+        let chan = open_in ime_datoteke in
+        let vsebina = really_input_string chan (in_channel_length chan) in
+        close_in chan;
+        vsebina
+    and izpisi_datoteko ime_datoteke vsebina =
+        let chan = open_out ime_datoteke in
+        output_string chan vsebina;
+        close_out chan
+    in
+    let vsebina_datoteke = preberi_datoteko ("/home/ivan/AOC2020/in/day_" ^ day ^ ".in") in
+    
+    let time1 = Unix.gettimeofday () in
+    let odgovor1 = pt1 vsebina_datoteke in
+    let time_used1 = Unix.gettimeofday () -. time1 in
+  
+    let time2 = Unix.gettimeofday () in
+    let odgovor2 = pt2 vsebina_datoteke in
+    let time_used2 = Unix.gettimeofday () -. time2 in
+    
+    izpisi_datoteko ("/home/ivan/AOC2020/out/day_" ^ day ^ "_1.out") (odgovor1 ^ " in " ^ (string_of_float time_used1) ^ "s");
+    izpisi_datoteko ("/home/ivan/AOC2020/out/day_" ^ day ^ "_2.out") (odgovor2 ^ " in " ^ (string_of_float time_used2) ^ "s")

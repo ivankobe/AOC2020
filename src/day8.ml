@@ -1,3 +1,5 @@
+#load "unix.cma"
+
 let day = "8"
 
 type instr = Nop | Jmp | Acc
@@ -45,7 +47,7 @@ let read_tape' (tape : tape) : int =
     let start' = start + 1 in
     match Hashtbl.find_opt tape start' with
     | None -> failwith "no more tapes"
-    | Some (instr, num) ->
+    | Some (instr, _) ->
       if instr = Acc then find_next start' tape else start'
     in
   
@@ -114,6 +116,30 @@ let parse input : tape =
   input |> String.split_on_char '\n' |> List.map (String.split_on_char ' ')
   |> parser (Hashtbl.create 1000) 0 
 
-let day8pt1 input = input |> parse |> read_tape |> string_of_int
+let pt1 input = input |> parse |> read_tape |> string_of_int
 
-let day8pt2 input = input |> parse |> read_tape' |> string_of_int
+let pt2 input = input |> parse |> read_tape' |> string_of_int
+
+let _ =
+  let preberi_datoteko ime_datoteke =
+      let chan = open_in ime_datoteke in
+      let vsebina = really_input_string chan (in_channel_length chan) in
+      close_in chan;
+      vsebina
+  and izpisi_datoteko ime_datoteke vsebina =
+      let chan = open_out ime_datoteke in
+      output_string chan vsebina;
+      close_out chan
+  in
+  let vsebina_datoteke = preberi_datoteko ("/home/ivan/AOC2020/in/day_" ^ day ^ ".in") in
+  
+  let time1 = Unix.gettimeofday () in
+  let odgovor1 = pt1 vsebina_datoteke in
+  let time_used1 = Unix.gettimeofday () -. time1 in
+
+  let time2 = Unix.gettimeofday () in
+  let odgovor2 = pt2 vsebina_datoteke in
+  let time_used2 = Unix.gettimeofday () -. time2 in
+  
+  izpisi_datoteko ("/home/ivan/AOC2020/out/day_" ^ day ^ "_1.out") (odgovor1 ^ " in " ^ (string_of_float time_used1) ^ "s");
+  izpisi_datoteko ("/home/ivan/AOC2020/out/day_" ^ day ^ "_2.out") (odgovor2 ^ " in " ^ (string_of_float time_used2) ^ "s")

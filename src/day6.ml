@@ -1,6 +1,9 @@
+#load "unix.cma"
 #use "topfind"
 #require "str"
 open Str
+
+let day = "6"
 
 let concat_list list =
     let rec aux acc = function
@@ -41,16 +44,40 @@ let common_chars list =
         else aux common (rest, tl)
     in aux [] (List.hd list, List.tl list)
 
-let day6pt1 input = input
+let pt1 input = input
 |> Str.split (Str.regexp "\n\n")
 |> List.map (String.split_on_char '\n')
 |> List.map concat_list
 |> List.map count_chars
 |> list_sum |> string_of_int
 
-let day6pt2 input = input
+let pt2 input = input
 |> Str.split (Str.regexp "\n\n")
 |> List.map (String.split_on_char '\n')
 |> List.map common_chars
 |> List.map List.length
 |> list_sum |> string_of_int
+
+let _ =
+    let preberi_datoteko ime_datoteke =
+        let chan = open_in ime_datoteke in
+        let vsebina = really_input_string chan (in_channel_length chan) in
+        close_in chan;
+        vsebina
+    and izpisi_datoteko ime_datoteke vsebina =
+        let chan = open_out ime_datoteke in
+        output_string chan vsebina;
+        close_out chan
+    in
+    let vsebina_datoteke = preberi_datoteko ("/home/ivan/AOC2020/in/day_" ^ day ^ ".in") in
+    
+    let time1 = Unix.gettimeofday () in
+    let odgovor1 = pt1 vsebina_datoteke in
+    let time_used1 = Unix.gettimeofday () -. time1 in
+  
+    let time2 = Unix.gettimeofday () in
+    let odgovor2 = pt2 vsebina_datoteke in
+    let time_used2 = Unix.gettimeofday () -. time2 in
+    
+    izpisi_datoteko ("/home/ivan/AOC2020/out/day_" ^ day ^ "_1.out") (odgovor1 ^ " in " ^ (string_of_float time_used1) ^ "s");
+    izpisi_datoteko ("/home/ivan/AOC2020/out/day_" ^ day ^ "_2.out") (odgovor2 ^ " in " ^ (string_of_float time_used2) ^ "s")
